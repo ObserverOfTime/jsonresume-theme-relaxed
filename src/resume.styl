@@ -1,0 +1,130 @@
+$body-margin = 1ex
+$progress-radius = 0.25rem
+
+progress-bar()
+  border-radius $progress-radius
+  background-color green
+
+@media print
+  @page
+    margin 2.5cm
+
+body
+  padding 0
+  margin $body-margin * 2
+
+:root
+  font-size 10pt
+  font-family "Fira Sans", sans-serif
+
+main
+  margin 0 $body-margin
+
+header
+  height 8rem
+  margin $body-margin $body-margin * 1.5 (- $body-margin)
+
+  img
+    float right
+    max-height 90%
+    border 0.3ex solid darkgreen
+    border-radius 15%
+
+article
+  break-inside avoid-page
+
+h1
+  font-size 1.6em
+  font-weight bold
+
+h2
+  font-size 1.4em
+  font-weight normal
+
+h3
+  font-size 1.2em
+  font-weight bold
+
+  &::before
+    content " "
+    height 0
+    width "calc(100% + %s)" % ($body-margin * 2)
+    display block
+    position relative
+    padding-block-start 1em
+    border-block-start 0.2ex solid lightslategray
+    left - $body-margin
+    right - $body-margin
+
+strong
+  font-size: 1.1em
+
+address
+  font-style inherit
+
+  p + &
+    padding-block-start: 1em
+    border-block-start: 0.1ex dotted darkgray
+
+a, a:hover
+  color inherit
+  outline none
+  text-decoration underline cyan solid 10%
+  text-decoration-thickness 0.15ex
+
+mark
+  color white
+  background-color darkcyan
+  border-radius 0.2em
+  display inline-block
+  padding 0.15em 0.25em
+  margin-block-end 0.1em
+  margin-inline-end 0.2em
+
+progress
+  height 0.5rem
+  border 0
+  width 95%
+  background-color gray
+  display inline-block
+  border-radius $progress-radius
+  margin 0.25em 0
+
+  &::-moz-progress-bar
+    progress-bar()
+
+  &::-webkit-progress-value
+    progress-bar()
+
+  &::-webkit-progress-bar
+    border-radius $progress-radius
+
+.flex
+  display flex
+  justify-content space-evenly
+  gap 0.75rem
+
+  > section
+    flex 1
+
+:is(.skill, .language, .interest) > div
+  margin-block-start: 0.75ex
+
+:is(#contact, #profiles) > div
+  margin-block-end: 0.25ex
+
+.wrap
+  line-height 1.5em
+  white-space pre-wrap
+
+.icon
+  height 0.9rem
+  width 0.9rem
+  vertical-align middle
+  margin-inline-end 0.2rem
+
+  h3 > &
+    margin-block-end 0.4ex
+
+  #location > &
+    vertical-align sub

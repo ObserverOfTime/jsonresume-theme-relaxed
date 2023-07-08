@@ -1,0 +1,5 @@
+* text=auto
+
+*.htmls linguist-language=LiveScript
+
+types/jsonresume.d.ts linguist-generated

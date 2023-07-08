@@ -1,0 +1,8 @@
+.idea/
+.vscode/
+public/
+node_modules/
+resume.json
+.nvimrc
+*.html
+*.pdf

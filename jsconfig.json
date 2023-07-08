@@ -1,0 +1,14 @@
+{
+  "files": ["index.js"],
+  "exclude": ["node_modules"],
+  "typeAcquisition": {
+    "enable": true
+  },
+  "compilerOptions": {
+    "module": "Node16",
+    "checkJs": true,
+    "resolveJsonModule": true,
+    "types": ["jsonresume", "htmls"],
+    "typeRoots": ["node_modules/@types", "types"]
+  }
+}
