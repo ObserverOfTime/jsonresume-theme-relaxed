@@ -3,11 +3,17 @@ html {lang: \en} ->
   head ->
     meta charset: \UTF-8
     meta name: \viewport content: 'width=device-width, initial-scale=1'
+    if @resume.meta.lastModified
+      meta \http-equiv : \Last-Modified content: new Date(@resume.meta.lastModified).toUTCString!
     meta name: \generator content: "#{@name} v#{@version}"
     meta name: \author content: @resume.basics.name
+    if @resume.meta.version
+      meta name: \version content: @resume.meta.version
+    if @resume.meta.canonical
+      link rel: \alternate type: \application/json title: \resume.json href: @resume.meta.canonical
     if @resume.basics.image
-      link rel: \icon href: @resume.basics.image
-    link rel: \stylesheet href: @font
+      link rel: 'shortcut icon', type: @lib.mime(@resume.basics.image), href: @resume.basics.image
+    link rel: \stylesheet type: \text/css href: 'https://use.typekit.net/wav6afv.css'
     style @style
     title @resume.basics.name
   body ->
@@ -21,63 +27,63 @@ html {lang: \en} ->
           img alt: \Photo src: @resume.basics.image
     main ->
       h3 ->
-        img class: \icon alt: \About src: @lib.icon \outline, \identification
+        img class: \icon alt: '' src: @lib.icon \outline \identification
         $ 'Personal Information'
       article {id: \about} ->
         if @resume.basics.summary
-          p {id: \summary, class: \wrap} @resume.basics.summary
+          p {id: \summary class: \wrap} @resume.basics.summary
         address {class: \flex} ->
           section {id: \contact} ->
             if @resume.basics.url
               div {class: \url} ->
-                img class: \icon alt: \Homepage src: @lib.icon \outline, \globe-alt
-                a {href: @resume.basics.url} @lib.strip @resume.basics.url
+                img class: \icon alt: \Homepage src: @lib.icon \outline \globe-alt
+                a {rel: \me href: @resume.basics.url} @lib.strip @resume.basics.url
             if @resume.basics.email
               div {class: \url} ->
-                img class: \icon alt: \E-mail src: @lib.icon \outline, \envelope
-                a {href: \mailto: + @resume.basics.email} @resume.basics.email
+                img class: \icon alt: \E-mail src: @lib.icon \outline \envelope
+                a {rel: \me href: \mailto: + @resume.basics.email} @resume.basics.email
             if @resume.basics.phone
               div {class: \url} ->
-                img class: \icon alt: \Phone src: @lib.icon \solid, \phone
-                a {href: \tel: + @resume.basics.phone} @resume.basics.phone
+                img class: \icon alt: \Phone src: @lib.icon \outline \phone
+                a {rel: \me href: \tel: + @resume.basics.phone} @resume.basics.phone
             if @resume.basics.location
               div {id: \location} ->
-                img class: \icon alt: \Address src: @lib.icon \solid, \map-pin
+                img class: \icon alt: \Address src: @lib.icon \outline \map-pin
                 span @lib.address @resume.basics.location
           if @resume.basics.profiles
             section {id: \profiles} ->
               for let profile in @resume.basics.profiles
                 div {class: \brand} ->
                   img {class: \icon, alt: profile.network, src: @lib.brand profile.network}
-                  a {href: profile.url} profile.username
+                  a {rel: \me href: profile.url} profile.username
       if @resume.skills
         h3 ->
-          img class: \icon alt: '' src: @lib.icon \solid, \wrench-screwdriver
+          img class: \icon alt: '' src: @lib.icon \outline \wrench-screwdriver
           $ \Skills
-        article {id: \skills, class: \flex} ->
+        article {id: \skills class: \flex} ->
           for let skill in @resume.skills
             section {class: \skill} ->
               strong skill.name
               div ->
-                progress {max: 100, value: @lib.skill skill.level} skill.level
+                progress {max: 100 value: @lib.skill skill.level} skill.level
               if skill.keywords
                 div ->
                   for let keyword in skill.keywords
                     mark keyword
       if @resume.languages
         h3 ->
-          img class: \icon alt: '' src: @lib.icon \outline, \language
+          img class: \icon alt: '' src: @lib.icon \outline \language
           $ \Languages
-        article {id: \languages, class: \flex} ->
+        article {id: \languages class: \flex} ->
           for let language in @resume.languages
             section {class: \language} ->
               strong language.language
               div {class: \wrap} language.fluency
       if @resume.interests
         h3 ->
-          img class: \icon alt: '' src: @lib.icon \solid, \heart
+          img class: \icon alt: '' src: @lib.icon \outline \heart
           $ \Interests
-        article {id: \interests, class: \flex} ->
+        article {id: \interests class: \flex} ->
           for let interest in @resume.interests
             section {class: \interest} ->
               strong interest.name

@@ -27,7 +27,27 @@ const lib = {
    */
   brand: (name) => `https://cdn.simpleicons.org/${name.toLowerCase().replace(' ', '')}`,
   /**
-   * Get the skill level as a percentage.
+   * Guess the mime type of an image by its extension.
+   * @param {string} url the URL of the image.
+   * @returns {string}
+   */
+  mime: (url) => {
+    switch (url.toLowerCase().split('.').at(-1)) {
+      case 'png':
+        return 'image/png';
+      case 'jpg':
+      case 'jpeg':
+        return 'image/jpeg'
+      case 'webp':
+        return 'image/webp';
+      case 'ico':
+        return 'image/vnd.microsoft.icon';
+      default:
+        return 'image/png'
+    }
+  },
+  /**
+   * Map the skill level to a percentage.
    * @param {'beginner' | 'intermediate' | 'advanced' | 'master'} level the skill level as a string
    * @returns {25 | 50 | 75 | 100}
    * @throws if the skill level is invalid
@@ -48,7 +68,7 @@ const lib = {
   },
   /**
    * Format `YYYY-MM-DD` date as `MMMM YYYY`.
-   * @param {string} date a date in ISO format
+   * @param {string} date a date in ISO 8601 format
    * @returns {string}
    */
   format: (date) => dateFmt.format(Date.parse(date)),
@@ -68,10 +88,8 @@ const lib = {
 
 const template = readFileSync('src/resume.htmls', 'utf-8');
 
-// @ts-ignore (type stub missing 'compress' key)
+// @ts-ignore (the 'compress' key is missing in the type stub)
 const style = stylus.render(readFileSync('src/resume.styl', 'utf-8'), {compress: true});
-
-const font = 'https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;600&display=swap';
 
 module.exports = {
   /**
@@ -80,8 +98,13 @@ module.exports = {
    * @returns {string}
    */
   render: (resume) => htmls(template)({
-    resume, lib, style, font, name, version
+    resume, lib, style, name, version
   }),
+  pdfViewport: {
+    width: 794,
+    height: 1122,
+    deviceScaleFactor: 2
+  },
   pdfRenderOptions: {
     format: 'A4',
     mediaType: 'screen',

@@ -4,6 +4,12 @@ $progress-radius = 0.25rem
 progress-bar()
   border-radius $progress-radius
   background-color green
+  print-color-adjust exact
+
+:root
+  font-size 11pt
+  font-family "Lato", sans-serif
+  text-rendering geometricPrecision // fixes kerning
 
 @media print
   @page
@@ -13,9 +19,11 @@ body
   padding 0
   margin $body-margin * 2
 
-:root
-  font-size 10pt
-  font-family "Fira Sans", sans-serif
+@media only screen and (min-width: 297mm)
+  body
+    height 210mm
+    width 297mm
+    margin auto
 
 main
   margin 0 $body-margin
@@ -35,15 +43,15 @@ article
 
 h1
   font-size 1.6em
-  font-weight bold
+  font-weight 600
 
 h2
   font-size 1.4em
-  font-weight normal
+  font-weight 400
 
 h3
   font-size 1.2em
-  font-weight bold
+  font-weight 600
 
   &::before
     content " "
@@ -62,15 +70,12 @@ strong
 address
   font-style inherit
 
-  p + &
-    padding-block-start: 1em
-    border-block-start: 0.1ex dotted darkgray
-
 a, a:hover
   color inherit
   outline none
   text-decoration underline cyan solid 10%
   text-decoration-thickness 0.15ex
+  text-underline-position under
 
 mark
   color white
@@ -78,8 +83,8 @@ mark
   border-radius 0.2em
   display inline-block
   padding 0.15em 0.25em
-  margin-block-end 0.1em
-  margin-inline-end 0.2em
+  margin 0 0 0.2em 0.2em
+  print-color-adjust exact
 
 progress
   height 0.5rem
@@ -89,6 +94,7 @@ progress
   display inline-block
   border-radius $progress-radius
   margin 0.25em 0
+  print-color-adjust exact
 
   &::-moz-progress-bar
     progress-bar()
@@ -107,12 +113,6 @@ progress
   > section
     flex 1
 
-:is(.skill, .language, .interest) > div
-  margin-block-start: 0.75ex
-
-:is(#contact, #profiles) > div
-  margin-block-end: 0.25ex
-
 .wrap
   line-height 1.5em
   white-space pre-wrap
@@ -127,4 +127,15 @@ progress
     margin-block-end 0.4ex
 
   #location > &
-    vertical-align sub
+    vertical-align initial
+    margin-block-start -0.4ex
+
+:is(.skill, .language, .interest) > div
+  margin-block-start: 0.75ex
+
+#summary
+  padding-block-end 1em
+  border-block-end 0.1ex dotted darkgray
+
+:is(#contact, #profiles) > div
+  margin-block-end 0.25ex
