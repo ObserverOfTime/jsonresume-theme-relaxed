@@ -1,5 +1,39 @@
+# Mixins & constants {{{
+$title = (title, icon, variant = \outline) ~>
+  h3 ->
+    img class: \icon alt: '' src: @lib.icon variant, icon
+    $ title
+
+$url = (url, scheme, alt, icon, variant = \outline) ~>
+  div {class: \url} ->
+    img class: \icon, alt: alt, src: @lib.icon variant, icon
+    a {rel: \me href: scheme + url} @lib.strip url
+
+$keywords = (keywords) ~>
+  if keywords?.length > 0
+    div {class: \keywords} ->
+      for let keyword in keywords
+        mark keyword
+
+$highlights = (highlights) ~>
+ if highlights?.length > 0
+    ul {class: \highlights} ->
+      for let highlight in highlights
+        li highlight
+
+$dates = ({start-date, end-date}) ~>
+  time {datetime: start-date} @lib.format start-date, $lang
+  if end-date
+    if @lib.format(end-date, $lang) != @lib.format(start-date, $lang)
+      time {datetime: end-date} @lib.format end-date, $lang
+  else
+    span \Present
+
+const $lang = @resume.meta.\x-lang || \en
+# }}}
+
 doctype \html
-html {lang: \en} ->
+html {lang: $lang} ->
   head ->
     meta charset: \UTF-8
     meta name: \viewport content: 'width=device-width, initial-scale=1'
@@ -26,70 +60,116 @@ html {lang: \en} ->
         section {id: \image} ->
           img alt: \Photo src: @resume.basics.image
     main ->
-      h3 ->
-        img class: \icon alt: '' src: @lib.icon \outline \identification
-        $ 'Personal Information'
       article {id: \about} ->
+        $title 'Personal Information' \identification
         if @resume.basics.summary
           p {id: \summary class: \wrap} @resume.basics.summary
         address {class: \flex} ->
           section {id: \contact} ->
-            if @resume.basics.url
-              div {class: \url} ->
-                img class: \icon alt: \Homepage src: @lib.icon \outline \globe-alt
-                a {rel: \me href: @resume.basics.url} @lib.strip @resume.basics.url
-            if @resume.basics.email
-              div {class: \url} ->
-                img class: \icon alt: \E-mail src: @lib.icon \outline \envelope
-                a {rel: \me href: \mailto: + @resume.basics.email} @resume.basics.email
-            if @resume.basics.phone
-              div {class: \url} ->
-                img class: \icon alt: \Phone src: @lib.icon \outline \phone
-                a {rel: \me href: \tel: + @resume.basics.phone} @resume.basics.phone
+            $url @resume.basics.url, '', \Homepage, \globe-alt if @resume.basics.url
+            $url @resume.basics.email, \mailto:, \E-mail, \envelope if @resume.basics.email
+            $url @resume.basics.phone, \tel:, \Phone, \phone if @resume.basics.phone
             if @resume.basics.location
               div {id: \location} ->
                 img class: \icon alt: \Address src: @lib.icon \outline \map-pin
                 span @lib.address @resume.basics.location
-          if @resume.basics.profiles
+          if @resume.basics.profiles?.length > 0
             section {id: \profiles} ->
               for let profile in @resume.basics.profiles
                 div {class: \brand} ->
                   img {class: \icon, alt: profile.network, src: @lib.brand profile.network}
-                  a {rel: \me href: profile.url} profile.username
-      if @resume.skills
-        h3 ->
-          img class: \icon alt: '' src: @lib.icon \outline \wrench-screwdriver
-          $ \Skills
+                  if profile.url
+                    a {rel: \me href: profile.url} profile.username
+                  else
+                    span profile.username
+      if @resume.work?.length > 0
+        article {id: \work} ->
+          $title 'Work Experience' \building-office-2
+          for let work in @resume.work
+            section {class: 'work details'} ->
+              # TODO: support work.description
+              div ->
+                strong ->
+                  if work.url
+                    a {href: work.url} work.name
+                  else
+                    span work.name
+                b work.location if work.location
+              div ->
+                em work.position
+                if @lib.any-of work, <[startDate endDate]>
+                  small ->
+                    $dates work{start-date, end-date}
+              p {class: \wrap} work.summary if work.summary
+              $highlights work.highlights
+      if @resume.volunteer?.length > 0
+        article {id: \volunteer} ->
+          $title 'Volunteer Experience' \lifebuoy
+          for let volunteer in @resume.volunteer
+            section {class: 'volunteer details'} ->
+              div ->
+                strong ->
+                  if volunteer.url
+                    a {href: volunteer.url} volunteer.organization
+                  else
+                    span volunteer.organization
+                b volunteer.summary
+              div ->
+                em volunteer.position
+                if @lib.any-of volunteer, <[startDate endDate]>
+                  small ->
+                    $dates volunteer{start-date, end-date}
+              $highlights volunteer.highlights
+      if @resume.education?.length > 0
+        article {id: \education} ->
+          $title \Education \academic-cap
+          # TODO: education
+      if @resume.publications?.length > 0
+        article {id: \publications} ->
+          $title \Publications \document-text
+          # TODO: publications
+      if @resume.projects?.length > 0
+        article {id: \projects} ->
+          $title \Projects \archive-box
+          # TODO: projects
+      if @resume.skills?.length > 0
         article {id: \skills class: \flex} ->
+          $title \Skills \wrench-screwdriver
           for let skill in @resume.skills
             section {class: \skill} ->
               strong skill.name
               div ->
                 progress {max: 100 value: @lib.skill skill.level} skill.level
-              if skill.keywords
-                div ->
-                  for let keyword in skill.keywords
-                    mark keyword
-      if @resume.languages
-        h3 ->
-          img class: \icon alt: '' src: @lib.icon \outline \language
-          $ \Languages
+              $keywords skill.keywords
+      if @resume.languages?.length > 0
         article {id: \languages class: \flex} ->
+          $title \Languages \language
           for let language in @resume.languages
             section {class: \language} ->
               strong language.language
               div {class: \wrap} language.fluency
-      if @resume.interests
-        h3 ->
-          img class: \icon alt: '' src: @lib.icon \outline \heart
-          $ \Interests
+      if @resume.certifications?.length > 0
+        article {id: \certifications} ->
+          $title \Certifications \check-badge
+          # TODO: certifications
+      if @resume.awards?.length > 0
+        article {id: \awards} ->
+          $title \Awards \trophy
+          # TODO: awards
+      if @resume.interests?.length > 0
         article {id: \interests class: \flex} ->
+          $title \Interests \heart
           for let interest in @resume.interests
             section {class: \interest} ->
               strong interest.name
-              if interest.keywords
-                div ->
-                  for let keyword in interest.keywords
-                    mark keyword
+              $keywords interest.keywords
+      if @resume.references?.length > 0
+        # TODO: add style
+        article {id: \references} ->
+          $title \References \hand-thumb-up
+          for let reference in @resume.references
+            section {class: \reference} ->
+              strong reference.name
+              blockquote {class: \wrap} reference.reference
 
 # vim:ft=livescript:

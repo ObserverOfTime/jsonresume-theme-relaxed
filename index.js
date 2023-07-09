@@ -3,8 +3,8 @@ const htmls = require('htmls');
 const stylus = require('stylus');
 const { name, version } = require('./package.json');
 
-const country = new Intl.DisplayNames('en', {'type': 'region'});
-const dateFmt = new Intl.DateTimeFormat('en', {month: 'long', year: 'numeric'});
+/** @type {Intl.DateTimeFormatOptions} */
+const dateFmt = {day: 'numeric', month: 'long', year: 'numeric'};
 
 const lib = {
   /**
@@ -13,6 +13,13 @@ const lib = {
    * @returns {string}
    */
   strip: (url) => /^(?:https?:\/\/)?(.*)/.exec(url)[1],
+  /**
+   * Check if an object contains any of certain keys.
+   * @param {any} obj an object
+   * @param {string[]} arr a list of keys
+   * @returns {boolean}
+   */
+  anyOf: (obj, arr) => Object.keys(obj).some(k => arr.includes(k)),
   /**
    * Get the URL of an icon from heroicons.
    * @param {'outline' | 'solid'} style the icon style
@@ -43,7 +50,7 @@ const lib = {
       case 'ico':
         return 'image/vnd.microsoft.icon';
       default:
-        return 'image/png'
+        return 'image/png';
     }
   },
   /**
@@ -69,21 +76,26 @@ const lib = {
   /**
    * Format `YYYY-MM-DD` date as `MMMM YYYY`.
    * @param {string} date a date in ISO 8601 format
+   * @param {string?} locale an optional locale
+   * @param {Intl.DateTimeFormatOptions} format an optional date format
    * @returns {string}
    */
-  format: (date) => dateFmt.format(Date.parse(date)),
+  format: (date, locale, format = dateFmt) =>
+    new Intl.DateTimeFormat(locale || 'en', format).format(Date.parse(date)),
   /**
    * Format location data as an address.
    * @param {ResumeSchema['basics']['location']} location the location data
+   * @param {string?} locale an optional locale
    * @returns {string}
    */
-  address: (location) => [
+  address: (location, locale) => [
     location.address,
     location.city,
     location.postalCode,
     location.region,
-    location.countryCode && country.of(location.countryCode)
-  ].filter(e => e).join(', '),
+    location.countryCode &&
+      new Intl.DisplayNames(locale || 'en', {type: 'region'}).of(location.countryCode)
+  ].filter(e => e).join(', ')
 }
 
 const template = readFileSync('src/resume.htmls', 'utf-8');
@@ -101,12 +113,12 @@ module.exports = {
     resume, lib, style, name, version
   }),
   pdfViewport: {
-    width: 794,
-    height: 1122,
+    width: 1240,
+    height: 1754,
     deviceScaleFactor: 2
   },
   pdfRenderOptions: {
     format: 'A4',
-    mediaType: 'screen',
-  },
+    mediaType: 'screen'
+  }
 };
