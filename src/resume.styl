@@ -17,11 +17,14 @@ separator(content = "·", padding = 0 0.5em)
 :root
   font-size 11pt
   font-family "Lato", sans-serif
-  text-rendering geometricPrecision // fixes kerning
+  text-rendering geometricPrecision // XXX: fixes kerning
 
 @media not print
   @page
     margin $body-margin * 2
+
+  article
+    break-inside avoid-page
 
 @media print
   @page
@@ -43,14 +46,8 @@ header
   height 8rem
   margin $body-margin $body-margin * 1.5 (- $body-margin)
 
-  img
-    float right
-    max-height 90%
-    border 0.3ex solid darkgreen
-    border-radius 15%
-
-article
-  break-inside avoid-page
+article:not(.flex) > h3
+  margin-block-end 0.75rem
 
 h1
   font-size 1.6em
@@ -108,8 +105,7 @@ mark
 
 ul
   padding-inline-start 2em
-  li
-    list-style disclosure-closed
+  list-style-type disclosure-closed
 
 progress
   height 0.5rem
@@ -150,12 +146,57 @@ time + :is(time, span)::before
   > :first-child
     margin-block-end 1em
 
-  > div > :nth-child(2)::before
-    separator()
+  &:not(:first-of-type)
+    padding-block-start 1em
 
   &:not(:last-of-type)
     padding-block-end 1em
     border-block-end 0.15ex dashed darkslategray
+
+.wrap
+  line-height 1.5em
+  white-space pre-wrap
+
+.icon
+  height 0.9rem
+  width 0.9rem
+  vertical-align middle
+  margin-inline-end 0.2rem
+
+  h3 > &
+    margin-block-end 0.4ex
+
+  #location > &
+    vertical-align initial
+    margin-block-start -0.4ex
+
+.float
+  float inline-end
+  margin-inline-end 0.75rem
+
+.bsep > :nth-child(2)::before
+  separator()
+
+.asep
+  margin-block-start 0.25em
+
+  > b::after
+    separator()
+
+  > time
+    display inline-block
+
+.education
+  > div + div
+    margin-block-start 1.5ex
+
+  .courses > ul
+    display flex
+    flex-wrap wrap
+    margin-block-end 0
+
+    > li
+      flex-basis 50%
 
 .reference
   background lightgray
@@ -181,32 +222,6 @@ time + :is(time, span)::before
   > b::before
     separator("–", 0 0.5em 0 0)
 
-.wrap
-  line-height 1.5em
-  white-space pre-wrap
-
-.icon
-  height 0.9rem
-  width 0.9rem
-  vertical-align middle
-  margin-inline-end 0.2rem
-
-  h3 > &
-    margin-block-end 0.4ex
-
-  #location > &
-    vertical-align initial
-    margin-block-start -0.4ex
-
-// XXX: :is() can't be used here
-.award > div:nth-of-type(2),
-.certificate > div:nth-of-type(2),
-.publication > div:nth-of-type(2)
-  margin-block-start 0.25em
-
-  > b::after
-    separator()
-
 :is(.skill, .language, .interest) > div
   margin-block-start 0.75ex
 
@@ -217,5 +232,21 @@ time + :is(time, span)::before
 #image
   display contents
 
+  > img
+    float inline-end
+    max-height 90%
+    border 0.3ex solid darkgreen
+    border-radius 15%
+
 :is(#contact, #profiles) > div
   margin-block-end 0.25ex
+
+// HACK: simulate float: inline-end
+@supports not (float inline-end)
+  html[dir="ltr"]
+    #image > img, .float
+      float right
+
+  html[dir="rtl"]
+    #image > img, .float
+      float left

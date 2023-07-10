@@ -1,10 +1,10 @@
-const { readFileSync } = require('node:fs');
+const {readFileSync} = require('node:fs');
 const htmls = require('htmls');
 const stylus = require('stylus');
-const { name, version } = require('./package.json');
+const {name, version} = require('./package.json');
 
 /** @type {Intl.DateTimeFormatOptions} */
-const dateFmt = {day: 'numeric', month: 'long', year: 'numeric'};
+const dateFmt = {month: 'long', year: 'numeric'};
 
 const lib = {
   /**
@@ -80,8 +80,8 @@ const lib = {
    * @param {Intl.DateTimeFormatOptions} format an optional date format
    * @returns {string}
    */
-  format: (date, locale, format = dateFmt) =>
-    new Intl.DateTimeFormat(locale || 'en', format).format(Date.parse(date)),
+  format: (date, locale, format = {}) =>
+    new Intl.DateTimeFormat(locale || 'en', {...dateFmt, ...format}).format(Date.parse(date)),
   /**
    * Format location data as an address.
    * @param {ResumeSchema['basics']['location']} location the location data
@@ -109,6 +109,7 @@ module.exports = {
    * @param {ResumeSchema} resume the JSON resume
    * @returns {string}
    */
+  // TODO: add an i18n field
   render: (resume) => htmls(template)({
     resume, lib, style, name, version
   }),

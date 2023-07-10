@@ -16,34 +16,36 @@ $keywords = (keywords) ~>
         mark keyword
 
 $highlights = (highlights) ~>
- if highlights?.length > 0
+  if highlights?.length > 0
     ul {class: \highlights} ->
       for let highlight in highlights
         li highlight
 
-$dates = ({start-date, end-date}) ~>
-  time {datetime: start-date} @lib.format start-date, $lang
+$dates = ({start-date, end-date}, format = {}) ~>
+  time {datetime: start-date} @lib.format start-date, $lang, format
   if end-date
-    if @lib.format(end-date, $lang) != @lib.format(start-date, $lang)
-      time {datetime: end-date} @lib.format end-date, $lang
+    if @lib.format(end-date, $lang, format) != @lib.format(start-date, $lang, format)
+      time {datetime: end-date} @lib.format end-date, $lang, format
   else
     span \Present
 
-const $lang = @resume.meta.\x-lang || \en
+const $lang = @resume.meta?.\x-lang || \en
+
+const $dir = new Intl.Locale($lang).text-info.direction
 # }}}
 
 doctype \html
-html {lang: $lang} ->
+html {lang: $lang, dir: $dir} ->
   head ->
     meta charset: \UTF-8
     meta name: \viewport content: 'width=device-width, initial-scale=1'
-    if @resume.meta.lastModified
+    if @resume.meta?.lastModified
       meta \http-equiv : \Last-Modified content: new Date(@resume.meta.lastModified).toUTCString!
     meta name: \generator content: "#{@name} v#{@version}"
     meta name: \author content: @resume.basics.name
-    if @resume.meta.version
+    if @resume.meta?.version
       meta name: \version content: @resume.meta.version
-    if @resume.meta.canonical
+    if @resume.meta?.canonical
       link rel: \alternate type: \application/json title: \resume.json href: @resume.meta.canonical
     if @resume.basics.image
       link rel: 'shortcut icon', type: @lib.mime(@resume.basics.image), href: @resume.basics.image
@@ -87,25 +89,47 @@ html {lang: $lang} ->
           $title 'Work Experience' \building-office-2
           for let work in @resume.work
             section {class: 'work details'} ->
-              # TODO: support work.description
+              # TODO: support location & description
               div ->
                 strong ->
                   if work.url
                     a {href: work.url} work.name
                   else
                     span work.name
-                b work.location if work.location
-              div ->
-                em work.position
                 if @lib.any-of work, <[startDate endDate]>
-                  small ->
+                  span {class: \float} ->
                     $dates work{start-date, end-date}
+              div ->
+                strong work.position
               p {class: \wrap} work.summary if work.summary
               $highlights work.highlights
       if @resume.education?.length > 0
         article {id: \education} ->
           $title \Education \academic-cap
-          # TODO: education
+          for let education in @resume.education
+            section {class: 'education details'} ->
+              div ->
+                strong ->
+                  if education.url
+                    a {href: education.url} education.institution
+                  else
+                    span education.institution
+                if @lib.any-of education, <[startDate endDate]>
+                  span {class: \float} ->
+                    $dates education{start-date, end-date}
+              div ->
+                strong education.area
+                b {class: \float} education.study-type
+              if education.score
+                div {class: \grade} ->
+                  b 'Grade: '
+                  $ education.score
+              if education.courses?.length > 0
+                div {class: \courses} ->
+                  b 'Notable Courses:'
+                  ul ->
+                    for let course in education.courses
+                      li course
       if @resume.volunteer?.length > 0
         article {id: \volunteer} ->
           $title 'Volunteer Experience' \lifebuoy
@@ -117,12 +141,12 @@ html {lang: $lang} ->
                     a {href: volunteer.url} volunteer.organization
                   else
                     span volunteer.organization
-                b volunteer.summary
-              div ->
-                em volunteer.position
                 if @lib.any-of volunteer, <[startDate endDate]>
-                  small ->
-                    $dates volunteer{start-date, end-date}
+                  span {class: \float} ->
+                    $dates volunteer{start-date, end-date}, day: \numeric
+              div ->
+                strong volunteer.summary
+                b {class: \float} volunteer.position
               $highlights volunteer.highlights
       if @resume.projects?.length > 0
         article {id: \projects} ->
@@ -139,7 +163,7 @@ html {lang: $lang} ->
                     a {href: publication.url} publication.name
                   else
                     span publication.name
-              div ->
+              div {class: \asep} ->
                 b publication.publisher
                 time {datetime: publication.release-date} @lib.format publication.release-date, $lang
               p publication.summary if publication.summary
@@ -154,7 +178,7 @@ html {lang: $lang} ->
                     a {href: certificate.url} certificate.name
                   else
                     span certificate.name
-              div ->
+              div {class: \asep} ->
                 b certificate.issuer
                 time {datetime: certificate.date} @lib.format certificate.date, $lang
       if @resume.skills?.length > 0
@@ -163,8 +187,8 @@ html {lang: $lang} ->
           for let skill in @resume.skills
             section {class: \skill} ->
               strong skill.name
-              div ->
-                progress {max: 100 value: @lib.skill skill.level} skill.level
+              div {title: skill.level} ->
+                progress {max: 100 value: @lib.skill skill.level}
               $keywords skill.keywords
       if @resume.languages?.length > 0
         article {id: \languages class: \flex} ->
@@ -180,7 +204,7 @@ html {lang: $lang} ->
             section {class: \award} ->
               div ->
                 strong award.title
-              div ->
+              div {class: \asep} ->
                 b award.awarder
                 time {datetime: award.date} @lib.format award.date, $lang
               p award.summary if award.summary
