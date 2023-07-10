@@ -8,11 +8,11 @@ const dateFmt = {month: 'long', year: 'numeric'};
 
 const lib = {
   /**
-   * Strip the scheme from a URL.
+   * Strip the scheme & path from a URL.
    * @param {string} url a URL
    * @returns {string}
    */
-  strip: (url) => /^(?:https?:\/\/)?(.*)/.exec(url)[1],
+  strip: (url) => /^(?:https?:\/\/)?([^/]+)/.exec(url)[1],
   /**
    * Check if an object contains any of certain keys.
    * @param {any} obj an object

@@ -72,7 +72,7 @@ html {lang: $lang, dir: $dir} ->
             $url @resume.basics.email, \mailto:, \E-mail, \envelope if @resume.basics.email
             $url @resume.basics.phone, \tel:, \Phone, \phone if @resume.basics.phone
             if @resume.basics.location
-              div {id: \location} ->
+              div ->
                 img class: \icon alt: \Address src: @lib.icon \outline \map-pin
                 span @lib.address @resume.basics.location
           if @resume.basics.profiles?.length > 0
@@ -111,14 +111,14 @@ html {lang: $lang, dir: $dir} ->
               div ->
                 strong ->
                   if education.url
-                    a {href: education.url} education.institution
+                    a {href: education.url} education.area
                   else
-                    span education.institution
+                    span education.area
                 if @lib.any-of education, <[startDate endDate]>
                   span {class: \float} ->
                     $dates education{start-date, end-date}
               div ->
-                strong education.area
+                strong education.institution
                 b {class: \float} education.study-type
               if education.score
                 div {class: \grade} ->
@@ -138,20 +138,38 @@ html {lang: $lang, dir: $dir} ->
               div ->
                 strong ->
                   if volunteer.url
-                    a {href: volunteer.url} volunteer.organization
+                    a {href: volunteer.url} volunteer.summary
                   else
-                    span volunteer.organization
+                    span volunteer.summary
                 if @lib.any-of volunteer, <[startDate endDate]>
                   span {class: \float} ->
                     $dates volunteer{start-date, end-date}, day: \numeric
               div ->
-                strong volunteer.summary
+                strong volunteer.organization
                 b {class: \float} volunteer.position
               $highlights volunteer.highlights
       if @resume.projects?.length > 0
         article {id: \projects} ->
           $title \Projects \archive-box
-          # TODO: projects
+          for let project in @resume.projects
+            # TODO: support type
+            section {class: 'project details'} ->
+              div ->
+                strong ->
+                  if project.url
+                    a {href: project.url} project.name
+                  else
+                    span project.name
+                if @lib.any-of project, <[startDate endDate]>
+                  span {class: \float} ->
+                    $dates project{start-date, end-date}, day: \numeric
+              if project.roles?.length >0
+                div ->
+                  strong project.roles.join ', '
+                  b {class: \float} project.entity if project.entity
+              div {class: \wrap} project.description if project.description
+              $highlights project.highlights
+              $keywords project.keywords
       if @resume.publications?.length > 0
         article {id: \publications, class: \flex} ->
           $title \Publications \document-text
@@ -206,7 +224,7 @@ html {lang: $lang, dir: $dir} ->
                 strong award.title
               div {class: \asep} ->
                 b award.awarder
-                time {datetime: award.date} @lib.format award.date, $lang
+                time {datetime: award.date} @lib.format award.date, $lang, month: \short
               p award.summary if award.summary
       if @resume.interests?.length > 0
         article {id: \interests class: \flex} ->

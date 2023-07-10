@@ -1,5 +1,5 @@
 $body-margin = 1ex
-$progress-radius = 0.25rem
+$progress-radius = 0.25em
 
 progress-bar()
   border-radius $progress-radius
@@ -15,7 +15,7 @@ separator(content = "·", padding = 0 0.5em)
   padding padding
 
 :root
-  font-size 11pt
+  font-size 10pt
   font-family "Lato", sans-serif
   text-rendering geometricPrecision // XXX: fixes kerning
 
@@ -23,7 +23,7 @@ separator(content = "·", padding = 0 0.5em)
   @page
     margin $body-margin * 2
 
-  article
+  section
     break-inside avoid-page
 
 @media print
@@ -43,22 +43,24 @@ main
   margin 0 $body-margin
 
 header
-  height 8rem
+  height 8em
   margin $body-margin $body-margin * 1.5 (- $body-margin)
 
 article:not(.flex) > h3
-  margin-block-end 0.75rem
+  margin-block-end 0.75em
 
 h1
-  font-size 1.6em
+  font-size 2em
   font-weight 600
+  margin 0.5em 0
 
 h2
-  font-size 1.4em
+  font-size 1.5em
   font-weight 400
+  margin 0.5em 0
 
 h3
-  font-size 1.2em
+  font-size 1.25em
   font-weight 600
 
   &::before
@@ -108,7 +110,7 @@ ul
   list-style-type disclosure-closed
 
 progress
-  height 0.5rem
+  height 0.5em
   border 0
   width 95%
   background-color gray
@@ -134,7 +136,7 @@ time + :is(time, span)::before
   display flex
   flex-wrap wrap
   justify-content space-evenly
-  gap 0 0.75rem
+  gap 0 0.75em
 
   > h3
     flex-basis 100%
@@ -158,21 +160,38 @@ time + :is(time, span)::before
   white-space pre-wrap
 
 .icon
-  height 0.9rem
-  width 0.9rem
+  height 0.9em
+  width 0.9em
   vertical-align middle
-  margin-inline-end 0.2rem
+  margin-inline-end 0.2em
 
   h3 > &
     margin-block-end 0.4ex
 
-  #location > &
+  // HACK: fine-tune certain icons
+  &[src$="map-pin.svg"]
     vertical-align initial
     margin-block-start -0.4ex
 
+  &[src$="trophy.svg"]
+    margin-block-start -0.3ex
+
+  &[src$="github"]
+  &[src$="element"]
+    margin-block-end 0.3ex
+
+  &[src$="signal"]
+  &[src$="globe-alt.svg"]
+    margin-block-end 0.2ex
+
+  &[src$="linkedin"]
+  &[src$="phone.svg"]
+  &[src$="envelope.svg"]
+    margin-block-end 0.1ex
+
 .float
   float inline-end
-  margin-inline-end 0.75rem
+  margin-inline-end 0.75em
 
 .bsep > :nth-child(2)::before
   separator()
@@ -182,9 +201,6 @@ time + :is(time, span)::before
 
   > b::after
     separator()
-
-  > time
-    display inline-block
 
 .education
   > div + div
@@ -197,6 +213,10 @@ time + :is(time, span)::before
 
     > li
       flex-basis 50%
+
+.project
+  > div + div
+    margin-block-start 1.5ex
 
 .reference
   background lightgray
