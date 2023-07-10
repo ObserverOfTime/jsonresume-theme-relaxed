@@ -10,6 +10,10 @@ underlined(color = black, style = solid, thickness = 0.15ex)
   text-decoration underline color style thickness
   text-underline-position under
 
+separator(content = "·", padding = 0 0.5em)
+  content content
+  padding padding
+
 :root
   font-size 11pt
   font-family "Lato", sans-serif
@@ -73,6 +77,10 @@ h3
 
 strong
   font-size 1.1em
+  font-weight 600
+
+b
+  font-weight 600
 
 small
   font-size 0.9em
@@ -123,15 +131,14 @@ progress
     border-radius $progress-radius
 
 time + :is(time, span)::before
-  content "–"
-  padding 0 0.25em
+  separator("–", 0 0.25em)
 
 // TODO: rewrite using grid
 .flex
   display flex
   flex-wrap wrap
   justify-content space-evenly
-  gap 0.75rem
+  gap 0 0.75rem
 
   > h3
     flex-basis 100%
@@ -144,12 +151,35 @@ time + :is(time, span)::before
     margin-block-end 1em
 
   > div > :nth-child(2)::before
-    content "·"
-    padding 0 0.5em
+    separator()
 
   &:not(:last-of-type)
     padding-block-end 1em
     border-block-end 0.15ex dashed darkslategray
+
+.reference
+  background lightgray
+  width max-content
+  display inline-block
+  border-radius 5%
+  padding 0.5em 1em
+  margin-inline-end 1em
+  print-color-adjust exact
+
+  > blockquote
+    font-style italic
+    margin 0
+
+    &::before
+      content "“"
+      font-size 2em
+      line-height 0.1em
+      vertical-align -0.4em
+      color lightslategray
+      padding-inline-end 0.25em
+
+  > b::before
+    separator("–", 0 0.5em 0 0)
 
 .wrap
   line-height 1.5em
@@ -168,8 +198,17 @@ time + :is(time, span)::before
     vertical-align initial
     margin-block-start -0.4ex
 
+// XXX: :is() can't be used here
+.award > div:nth-of-type(2),
+.certificate > div:nth-of-type(2),
+.publication > div:nth-of-type(2)
+  margin-block-start 0.25em
+
+  > b::after
+    separator()
+
 :is(.skill, .language, .interest) > div
-  margin-block-start: 0.75ex
+  margin-block-start 0.75ex
 
 #summary
   padding-block-end 1em

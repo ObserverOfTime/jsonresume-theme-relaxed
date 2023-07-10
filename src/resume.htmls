@@ -102,6 +102,10 @@ html {lang: $lang} ->
                     $dates work{start-date, end-date}
               p {class: \wrap} work.summary if work.summary
               $highlights work.highlights
+      if @resume.education?.length > 0
+        article {id: \education} ->
+          $title \Education \academic-cap
+          # TODO: education
       if @resume.volunteer?.length > 0
         article {id: \volunteer} ->
           $title 'Volunteer Experience' \lifebuoy
@@ -120,18 +124,39 @@ html {lang: $lang} ->
                   small ->
                     $dates volunteer{start-date, end-date}
               $highlights volunteer.highlights
-      if @resume.education?.length > 0
-        article {id: \education} ->
-          $title \Education \academic-cap
-          # TODO: education
-      if @resume.publications?.length > 0
-        article {id: \publications} ->
-          $title \Publications \document-text
-          # TODO: publications
       if @resume.projects?.length > 0
         article {id: \projects} ->
           $title \Projects \archive-box
           # TODO: projects
+      if @resume.publications?.length > 0
+        article {id: \publications, class: \flex} ->
+          $title \Publications \document-text
+          for let publication in @resume.publications
+            section {class: \publication} ->
+              div ->
+                strong ->
+                  if publication.url
+                    a {href: publication.url} publication.name
+                  else
+                    span publication.name
+              div ->
+                b publication.publisher
+                time {datetime: publication.release-date} @lib.format publication.release-date, $lang
+              p publication.summary if publication.summary
+      if @resume.certificates?.length > 0
+        article {id: \certificates} ->
+          $title \Certificates \check-badge
+          for let certificate in @resume.certificates
+            section {class: \certificate} ->
+              div ->
+                strong ->
+                  if certificate.url
+                    a {href: certificate.url} certificate.name
+                  else
+                    span certificate.name
+              div ->
+                b certificate.issuer
+                time {datetime: certificate.date} @lib.format certificate.date, $lang
       if @resume.skills?.length > 0
         article {id: \skills class: \flex} ->
           $title \Skills \wrench-screwdriver
@@ -148,14 +173,17 @@ html {lang: $lang} ->
             section {class: \language} ->
               strong language.language
               div {class: \wrap} language.fluency
-      if @resume.certifications?.length > 0
-        article {id: \certifications} ->
-          $title \Certifications \check-badge
-          # TODO: certifications
       if @resume.awards?.length > 0
-        article {id: \awards} ->
+        article {id: \awards, class: \flex} ->
           $title \Awards \trophy
-          # TODO: awards
+          for let award in @resume.awards
+            section {class: \award} ->
+              div ->
+                strong award.title
+              div ->
+                b award.awarder
+                time {datetime: award.date} @lib.format award.date, $lang
+              p award.summary if award.summary
       if @resume.interests?.length > 0
         article {id: \interests class: \flex} ->
           $title \Interests \heart
@@ -164,12 +192,11 @@ html {lang: $lang} ->
               strong interest.name
               $keywords interest.keywords
       if @resume.references?.length > 0
-        # TODO: add style
         article {id: \references} ->
           $title \References \hand-thumb-up
           for let reference in @resume.references
             section {class: \reference} ->
-              strong reference.name
               blockquote {class: \wrap} reference.reference
+              b reference.name
 
 # vim:ft=livescript:
