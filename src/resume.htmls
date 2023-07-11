@@ -5,9 +5,10 @@ $title = (title, icon, variant = \outline) ~>
     $ $i18n[title]
 
 $url = (url, scheme, alt, icon, variant = \outline) ~>
-  div {class: \url} ->
-    img class: \icon, alt: $i18n[alt], src: @lib.icon variant, icon
-    a {rel: \me href: scheme + url} @lib.strip url
+  if url
+    div {class: \url} ->
+      img class: \icon, alt: $i18n[alt], src: @lib.icon variant, icon
+      a {rel: \me href: scheme + url} @lib.strip url
 
 $keywords = (keywords) ~>
   if keywords?.length > 0
@@ -36,6 +37,10 @@ const $lang = @resume.meta?.\x-lang || \en
 const $dir = new Intl.Locale($lang).text-info.direction
 
 const $i18n = @lib.i18n $lang
+
+const $twitter = @resume.basics.profiles \
+  ?.find(-> it.network.to-lower-case! == \twitter) \
+  ?.username?.replace(/^[^@]/, \@$&)
 # }}}
 
 doctype \html
@@ -47,6 +52,19 @@ html {lang: $lang, dir: $dir} ->
       meta \http-equiv : \Last-Modified content: new Date(@resume.meta.lastModified).toUTCString!
     meta name: \generator content: "#{@name} v#{@version}"
     meta name: \author content: @resume.basics.name
+    if @resume.basics.summary
+      meta name: \description content: @resume.basics.summary
+    meta property: \og:site_name content: @resume.basics.name
+    if @resume.basics.label
+      meta property: \og:title content: @resume.basics.label
+    if @resume.basics.summary
+      meta property: \og:description content: @resume.basics.summary
+    if @resume.basics.image
+      meta property: \og:image content: @resume.basics.image
+    if @resume.meta?.\x-lang
+      meta property: \og:locale content: @resume.meta.'x-lang'.replaceAll \- \_
+    meta name: \twitter:site content: $twitter if $twitter
+    meta name: \twitter:card content: \summary
     if @resume.meta?.version
       meta name: \version content: @resume.meta.version
     if @resume.meta?.canonical
@@ -72,9 +90,9 @@ html {lang: $lang, dir: $dir} ->
           p {id: \summary class: \wrap} @resume.basics.summary
         address {class: \flex} ->
           section {id: \contact} ->
-            $url @resume.basics.url, '', \Website, \globe-alt if @resume.basics.url
-            $url @resume.basics.email, \mailto:, \E-mail, \envelope if @resume.basics.email
-            $url @resume.basics.phone, \tel:, \Phone, \phone if @resume.basics.phone
+            $url @resume.basics.url, '', \Website, \globe-alt
+            $url @resume.basics.email, \mailto:, \E-mail, \envelope
+            $url @resume.basics.phone, \tel:, \Phone, \phone
             if @resume.basics.location
               div ->
                 img class: \icon alt: \Address src: @lib.icon \outline \map-pin
