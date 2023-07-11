@@ -2,11 +2,11 @@
 $title = (title, icon, variant = \outline) ~>
   h3 ->
     img class: \icon alt: '' src: @lib.icon variant, icon
-    $ title
+    $ $i18n[title]
 
 $url = (url, scheme, alt, icon, variant = \outline) ~>
   div {class: \url} ->
-    img class: \icon, alt: alt, src: @lib.icon variant, icon
+    img class: \icon, alt: $i18n[alt], src: @lib.icon variant, icon
     a {rel: \me href: scheme + url} @lib.strip url
 
 $keywords = (keywords) ~>
@@ -27,13 +27,15 @@ $dates = ({start-date, end-date}, format = {}) ~>
     if @lib.format(end-date, $lang, format) != @lib.format(start-date, $lang, format)
       time {datetime: end-date} @lib.format end-date, $lang, format
   else
-    span \Present
+    span $i18n.\Present
 
 const $size = @resume.meta?.\x-size || '6pt'
 
 const $lang = @resume.meta?.\x-lang || \en
 
 const $dir = new Intl.Locale($lang).text-info.direction
+
+const $i18n = @lib.i18n $lang
 # }}}
 
 doctype \html
@@ -65,12 +67,12 @@ html {lang: $lang, dir: $dir} ->
           img alt: \Photo src: @resume.basics.image
     main ->
       article {id: \about} ->
-        $title 'Personal Information' \identification
+        $title 'Personal Info' \identification
         if @resume.basics.summary
           p {id: \summary class: \wrap} @resume.basics.summary
         address {class: \flex} ->
           section {id: \contact} ->
-            $url @resume.basics.url, '', \Homepage, \globe-alt if @resume.basics.url
+            $url @resume.basics.url, '', \Website, \globe-alt if @resume.basics.url
             $url @resume.basics.email, \mailto:, \E-mail, \envelope if @resume.basics.email
             $url @resume.basics.phone, \tel:, \Phone, \phone if @resume.basics.phone
             if @resume.basics.location
@@ -124,11 +126,11 @@ html {lang: $lang, dir: $dir} ->
                 b {class: \float} education.study-type
               if education.score
                 div {class: \grade} ->
-                  b 'Grade: '
+                  b "#{\Grade}: "
                   $ education.score
               if education.courses?.length > 0
                 div {class: \courses} ->
-                  b 'Notable Courses:'
+                  b "#{'Notable Courses'}:"
                   ul ->
                     for let course in education.courses
                       li course

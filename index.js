@@ -1,4 +1,4 @@
-const {readFileSync} = require('node:fs');
+const {existsSync, readFileSync} = require('node:fs');
 const htmls = require('htmls');
 const stylus = require('stylus');
 const {name, version} = require('./package.json');
@@ -95,7 +95,14 @@ const lib = {
     location.region,
     location.countryCode &&
       new Intl.DisplayNames(locale || 'en', {type: 'region'}).of(location.countryCode)
-  ].filter(e => e).join(', ')
+  ].filter(e => e).join(', '),
+  /**
+   * Return an object with translation strings.
+   * @param {string} lang a language code
+   * @returns {Object.<string, string>}
+   */
+  i18n: (lang) => existsSync(`i18n/${lang}.json`)
+    ? require(`./i18n/${lang}.json`) : require('./i18n/en.json')
 }
 
 const template = readFileSync('src/resume.htmls', 'utf-8');
@@ -109,7 +116,6 @@ module.exports = {
    * @param {ResumeSchema} resume the JSON resume
    * @returns {string}
    */
-  // TODO: add an i18n field
   render: (resume) => htmls(template)({
     resume, lib, style, name, version
   }),
