@@ -1,32 +1,34 @@
 # Mixins & constants {{{
-$title = (title, icon, variant = \outline) ~>
+$title = (title, icon, variant = \outline) ->
   h3 ->
     img class: \icon alt: '' src: @lib.icon variant, icon
     $ $i18n[title]
 
-$url = (url, scheme, alt, icon, variant = \outline) ~>
+$url = (url, scheme, alt, icon, variant = \outline) ->
   if url
     div {class: \url} ->
       img class: \icon, alt: $i18n[alt], src: @lib.icon variant, icon
       a {rel: \me href: scheme + url} @lib.strip url
 
-$keywords = (keywords) ~>
+$keywords = (keywords) ->
   if keywords?.length > 0
     div {class: \keywords} ->
       for let keyword in keywords
         mark keyword
 
-$highlights = (highlights) ~>
+$highlights = (highlights) ->
   if highlights?.length > 0
     ul {class: \highlights} ->
       for let highlight in highlights
         li highlight
 
-$dates = ({start-date, end-date}, format = {}) ~>
-  time {datetime: start-date} @lib.format start-date, $lang, format
+$dates = ({start-date, end-date}, format = {}) ->
+  start-fmt = @lib.format start-date, $lang, format
+  time {datetime: start-date} start-fmt
   if end-date
-    if @lib.format(end-date, $lang, format) != @lib.format(start-date, $lang, format)
-      time {datetime: end-date} @lib.format end-date, $lang, format
+    end-fmt = @lib.format end-date, $lang, format
+    unless start-fmt == end-fmt
+      time {datetime: end-date} end-fmt
   else
     span $i18n.\Present
 
@@ -48,8 +50,8 @@ html {lang: $lang, dir: $dir} ->
   head ->
     meta charset: \UTF-8
     meta name: \viewport content: 'width=device-width, initial-scale=1'
-    if @resume.meta?.lastModified
-      meta \http-equiv : \Last-Modified content: new Date(@resume.meta.lastModified).toUTCString!
+    if @resume.meta?.last-modified
+      meta \http-equiv : \Last-Modified content: new Date(@resume.meta.last-modified).toUTCString!
     meta name: \generator content: "#{@name} v#{@version}"
     meta name: \author content: @resume.basics.name
     if @resume.basics.summary
@@ -62,7 +64,7 @@ html {lang: $lang, dir: $dir} ->
     if @resume.basics.image
       meta property: \og:image content: @resume.basics.image
     if @resume.meta?.\x-lang
-      meta property: \og:locale content: @resume.meta.'x-lang'.replaceAll \- \_
+      meta property: \og:locale content: @resume.meta.'x-lang'.replace \- \_
     meta name: \twitter:site content: $twitter if $twitter
     meta name: \twitter:card content: \summary
     if @resume.meta?.version
@@ -205,7 +207,8 @@ html {lang: $lang, dir: $dir} ->
                     span publication.name
               div {class: \sep} ->
                 b publication.publisher
-                time {datetime: publication.release-date} @lib.format publication.release-date, $lang, month: \short
+                time {datetime: publication.release-date} do
+                  @lib.format publication.release-date, $lang, month: \short
               p publication.summary if publication.summary
       if @resume.certificates?.length > 0
         article {id: \certificates} ->
@@ -220,7 +223,8 @@ html {lang: $lang, dir: $dir} ->
                     span certificate.name
               div {class: \sep} ->
                 b certificate.issuer
-                time {datetime: certificate.date} @lib.format certificate.date, $lang, month: \short
+                time {datetime: certificate.date} do
+                  @lib.format certificate.date, $lang, month: \short
       if @resume.skills?.length > 0
         article {id: \skills class: \flex} ->
           $title \Skills \wrench-screwdriver
@@ -246,7 +250,8 @@ html {lang: $lang, dir: $dir} ->
                 strong award.title
               div {class: \sep} ->
                 b award.awarder
-                time {datetime: award.date} @lib.format award.date, $lang, month: \short
+                time {datetime: award.date} do
+                  @lib.format award.date, $lang, month: \short
               p award.summary if award.summary
       if @resume.interests?.length > 0
         article {id: \interests class: \flex} ->
