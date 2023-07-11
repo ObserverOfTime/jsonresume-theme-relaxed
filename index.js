@@ -102,13 +102,14 @@ const lib = {
    * @returns {Object.<string, string>}
    */
   i18n: (lang) => existsSync(`i18n/${lang}.json`)
-    ? require(`./i18n/${lang}.json`) : require('./i18n/en.json')
+    ? JSON.parse(readFileSync(`${__dirname}/i18n/${lang}.json`, 'utf-8'))
+    : JSON.parse(readFileSync(`${__dirname}/i18n/en.json`, 'utf-8'))
 }
 
-const template = readFileSync('src/resume.htmls', 'utf-8');
+const template = readFileSync(`${__dirname}/src/resume.htmls`, 'utf-8');
 
 // @ts-ignore (the 'compress' key is missing in the type stub)
-const style = stylus.render(readFileSync('src/resume.styl', 'utf-8'), {compress: true});
+const style = stylus.render(readFileSync(`${__dirname}/src/resume.styl`, 'utf-8'), {compress: true});
 
 module.exports = {
   /**
