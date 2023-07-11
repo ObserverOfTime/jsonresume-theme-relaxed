@@ -50,6 +50,10 @@ build it [online][resume-builder], or export it from [LinkedIn][json-resume-expo
 npm run build -- resume.pdf
 ```
 
+## Sample
+
+![preview](.github/sample.jpeg)
+
 ## Credits
 
 The theme was made using [HTMLS][] & [Stylus][],
