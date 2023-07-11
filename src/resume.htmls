@@ -29,6 +29,8 @@ $dates = ({start-date, end-date}, format = {}) ~>
   else
     span \Present
 
+const $size = @resume.meta?.\x-size || '6pt'
+
 const $lang = @resume.meta?.\x-lang || \en
 
 const $dir = new Intl.Locale($lang).text-info.direction
@@ -50,7 +52,7 @@ html {lang: $lang, dir: $dir} ->
     if @resume.basics.image
       link rel: 'shortcut icon', type: @lib.mime(@resume.basics.image), href: @resume.basics.image
     link rel: \stylesheet type: \text/css href: 'https://use.typekit.net/wav6afv.css'
-    style @style
+    style ":root{font-size:#{$size}}#{@style}"
     title @resume.basics.name
   body ->
     header {class: \flex} ->
@@ -88,14 +90,14 @@ html {lang: $lang, dir: $dir} ->
         article {id: \work} ->
           $title 'Work Experience' \building-office-2
           for let work in @resume.work
+            # TODO: support location & description
             section {class: 'work details'} ->
-              # TODO: support location & description
               div ->
                 strong ->
-                  if work.url
-                    a {href: work.url} work.name
+                  if work.website
+                    a {href: work.website} work.company
                   else
-                    span work.name
+                    span work.company
                 if @lib.any-of work, <[startDate endDate]>
                   span {class: \float} ->
                     $dates work{start-date, end-date}
@@ -163,7 +165,7 @@ html {lang: $lang, dir: $dir} ->
                 if @lib.any-of project, <[startDate endDate]>
                   span {class: \float} ->
                     $dates project{start-date, end-date}, day: \numeric
-              if project.roles?.length >0
+              if project.roles?.length > 0
                 div ->
                   strong project.roles.join ', '
                   b {class: \float} project.entity if project.entity
@@ -177,13 +179,13 @@ html {lang: $lang, dir: $dir} ->
             section {class: \publication} ->
               div ->
                 strong ->
-                  if publication.url
-                    a {href: publication.url} publication.name
+                  if publication.website
+                    a {href: publication.website} publication.name
                   else
                     span publication.name
-              div {class: \asep} ->
+              div {class: \sep} ->
                 b publication.publisher
-                time {datetime: publication.release-date} @lib.format publication.release-date, $lang
+                time {datetime: publication.release-date} @lib.format publication.release-date, $lang, month: \short
               p publication.summary if publication.summary
       if @resume.certificates?.length > 0
         article {id: \certificates} ->
@@ -196,9 +198,9 @@ html {lang: $lang, dir: $dir} ->
                     a {href: certificate.url} certificate.name
                   else
                     span certificate.name
-              div {class: \asep} ->
+              div {class: \sep} ->
                 b certificate.issuer
-                time {datetime: certificate.date} @lib.format certificate.date, $lang
+                time {datetime: certificate.date} @lib.format certificate.date, $lang, month: \short
       if @resume.skills?.length > 0
         article {id: \skills class: \flex} ->
           $title \Skills \wrench-screwdriver
@@ -222,7 +224,7 @@ html {lang: $lang, dir: $dir} ->
             section {class: \award} ->
               div ->
                 strong award.title
-              div {class: \asep} ->
+              div {class: \sep} ->
                 b award.awarder
                 time {datetime: award.date} @lib.format award.date, $lang, month: \short
               p award.summary if award.summary
