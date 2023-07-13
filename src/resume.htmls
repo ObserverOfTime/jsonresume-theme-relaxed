@@ -5,10 +5,10 @@ $title = (title, icon, variant = \outline) ->
     $ $i18n[title]
 
 $url = (url, scheme, alt, icon, variant = \outline) ->
-  if url
-    div {class: \url} ->
-      img class: \icon, alt: $i18n[alt], src: @lib.icon variant, icon
-      a {rel: \me href: scheme + url} @lib.strip url
+  return unless url
+  div {class: \url} ->
+    img class: \icon, alt: $i18n[alt], src: @lib.icon variant, icon
+    a {rel: \me href: scheme + url} @lib.strip url
 
 $keywords = (keywords) ->
   if keywords?.length > 0
@@ -32,7 +32,7 @@ $dates = ({start-date, end-date}, format = {}) ->
   else
     span $i18n.\Present
 
-const $size = @resume.meta?.\x-size || '6pt'
+const $size = @resume.meta?.\x-size || '10pt'
 
 const $lang = @resume.meta?.\x-lang || \en
 
@@ -156,7 +156,7 @@ html {lang: $lang, dir: $dir} ->
                       li course
       if @resume.volunteer?.length > 0
         article {id: \volunteer} ->
-          $title 'Volunteer Experience' \lifebuoy
+          $title 'Volunteer Work' \lifebuoy
           for let volunteer in @resume.volunteer
             section {class: 'volunteer details'} ->
               div ->
@@ -209,7 +209,7 @@ html {lang: $lang, dir: $dir} ->
                 b publication.publisher
                 time {datetime: publication.release-date} do
                   @lib.format publication.release-date, $lang, month: \short
-              p publication.summary if publication.summary
+              p {class: \wrap} publication.summary if publication.summary
       if @resume.certificates?.length > 0
         article {id: \certificates} ->
           $title \Certificates \check-badge
@@ -252,7 +252,7 @@ html {lang: $lang, dir: $dir} ->
                 b award.awarder
                 time {datetime: award.date} do
                   @lib.format award.date, $lang, month: \short
-              p award.summary if award.summary
+              p {class: \wrap} award.summary if award.summary
       if @resume.interests?.length > 0
         article {id: \interests class: \flex} ->
           $title \Interests \heart
