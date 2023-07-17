@@ -84,7 +84,7 @@ html {lang: $lang, dir: $dir} ->
           h2 {id: \label} @resume.basics.label
       if @resume.basics.image
         section {id: \image} ->
-          img alt: \Photo src: @resume.basics.image
+          img alt: $i18n.\Photo, src: @resume.basics.image
     main ->
       article {id: \about} ->
         $title 'Personal Info' \identification
@@ -97,7 +97,7 @@ html {lang: $lang, dir: $dir} ->
             $url @resume.basics.phone, \tel:, \Phone, \phone
             if @resume.basics.location
               div ->
-                img class: \icon alt: \Address src: @lib.icon \outline \map-pin
+                img class: \icon, alt: $i18n.\Address, src: @lib.icon \outline \map-pin
                 span @lib.address @resume.basics.location
           if @resume.basics.profiles?.length > 0
             section {id: \profiles} ->
@@ -146,11 +146,11 @@ html {lang: $lang, dir: $dir} ->
                 b {class: \float} education.study-type
               if education.score
                 div {class: \grade} ->
-                  b "#{\Grade}: "
+                  b "#{$i18n.\Grade}: "
                   $ education.score
               if education.courses?.length > 0
                 div {class: \courses} ->
-                  b "#{'Notable Courses'}:"
+                  b "#{$i18n.'Notable Courses'}:"
                   ul ->
                     for let course in education.courses
                       li course
