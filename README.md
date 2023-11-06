@@ -21,78 +21,78 @@ build it [online][resume-builder], or export it from [LinkedIn][json-resume-expo
 | Section | Field | Required | Line breaks (`\n`) | Notes |
 |:---:|:---:|:---:|:---:|:---:|
 | `basics` | `name` | **Yes** | No | Must be present. |
-| `basics` | `label` | No | No |  |
-| `basics` | `image` | No | No |  |
-| `basics` | `summary` | No | **Yes** |  |
+|  | `label` | No | No |  |
+|  | `image` | No | No |  |
+|  | `summary` | No | **Yes** |  |
 | `basics.location` | `address` | No | No |  |
-| `basics.location` | `city` | No | No |  |
-| `basics.location` | `postalCode` | No | No |  |
-| `basics.location` | `region` | No | No |  |
-| `basics.location` | `countryCode` | **Yes** | No |  |
+|  | `city` | No | No |  |
+|  | `postalCode` | No | No |  |
+|  | `region` | No | No |  |
+|  | `countryCode` | **Yes** | No |  |
 | `basics.profiles[]` | `url` | No | No |  |
-| `basics.profiles[]` | `network` | **Yes** | No |  |
-| `basics.profiles[]` | `username` | **Yes** | No |  |
+|  | `network` | **Yes** | No |  |
+|  | `username` | **Yes** | No |  |
 | `work[]` | `website` | No | No |  |
-| `work[]` | `company` | **Yes** | No |  |
-| `work[]` | `location` |  |  | _Unsupported._ |
-| `work[]` | `description` |  |  | _Unsupported._ |
-| `work[]` | `position` | **Yes** | No |  |
-| `work[]` | `summary` | No | **Yes** |  |
-| `work[]` | `startDate` | No | No | `YYYY-MM` / `YYYY-MM-DD` |
-| `work[]` | `endDate` | No | No | `YYYY-MM` / `YYYY-MM-DD`<br>Requires `startDate`. |
-| `work[]` | `highlights[]` | No | No |  |
+|  | `company` | **Yes** | No |  |
+|  | `location` |  |  | _Unsupported._ |
+|  | `description` |  |  | _Unsupported._ |
+|  | `position` | **Yes** | No |  |
+|  | `summary` | No | **Yes** |  |
+|  | `startDate` | No | No | `YYYY-MM` / `YYYY-MM-DD` |
+|  | `endDate` | No | No | `YYYY-MM` / `YYYY-MM-DD`<br>Requires `startDate`. |
+|  | `highlights[]` | No | No |  |
 | `education[]` | `url` | No | No |  |
-| `education[]` | `area` | **Yes** | No |  |
-| `education[]` | `institution` | **Yes** | No |  |
-| `education[]` | `studyType` | **Yes** | No |  |
-| `education[]` | `startDate` | No | No | `YYYY-MM` / `YYYY-MM-DD` |
-| `education[]` | `endDate` | No | No | `YYYY-MM` / `YYYY-MM-DD`<br>Requires `startDate`. |
-| `education[]` | `score` | No | No |  |
-| `education[]` | `courses[]` | No | No |  |
-| `volunteer[]` | `url` | No | No |  |
-| `volunteer[]` | `summary` | **Yes** | No | Should be the event name. |
-| `volunteer[]` | `organization` | **Yes** | No |  |
-| `volunteer[]` | `position` | **Yes** | No |  |
-| `volunteer[]` | `startDate` | No | No | `YYYY-MM-DD` |
-| `volunteer[]` | `endDate` | No | No | `YYYY-MM-DD`<br>Requires `startDate`. |
-| `volunteer[]` | `highlights[]` | No | No |  |
+|  | `area` | **Yes** | No |  |
+|  | `institution` | **Yes** | No |  |
+|  | `studyType` | **Yes** | No |  |
+|  | `startDate` | No | No | `YYYY-MM` / `YYYY-MM-DD` |
+|  | `endDate` | No | No | `YYYY-MM` / `YYYY-MM-DD`<br>Requires `startDate`. |
+|  | `score` | No | No |  |
+|  | `courses[]` | No | No |  |
+|  | `url` | No | No |  |
+|  | `summary` | **Yes** | No | Should be the event name. |
+|  | `organization` | **Yes** | No |  |
+|  | `position` | **Yes** | No |  |
+|  | `startDate` | No | No | `YYYY-MM-DD` |
+|  | `endDate` | No | No | `YYYY-MM-DD`<br>Requires `startDate`. |
+|  | `highlights[]` | No | No |  |
 | `projects[]` | `url` | No | No |  |
-| `projects[]` | `name` | **Yes** | No |  |
-| `projects[]` | `type` |  |  | _Unsupported._ |
-| `projects[]` | `roles[]` | No | No |  |
-| `projects[]` | `entity` | No | No | Requires `roles[]`. |
-| `projects[]` | `description` | No | **Yes** |  |
-| `projects[]` | `startDate` | No | No | `YYYY-MM-DD` |
-| `projects[]` | `endDate` | No | No | `YYYY-MM-DD`<br>Requires `startDate`. |
-| `projects[]` | `highlights[]` | No | No |  |
-| `projects[]` | `keywords[]` | No | No |  |
+|  | `name` | **Yes** | No |  |
+|  | `type` |  |  | _Unsupported._ |
+|  | `roles[]` | No | No |  |
+|  | `entity` | No | No | Requires `roles[]`. |
+|  | `description` | No | **Yes** |  |
+|  | `startDate` | No | No | `YYYY-MM-DD` |
+|  | `endDate` | No | No | `YYYY-MM-DD`<br>Requires `startDate`. |
+|  | `highlights[]` | No | No |  |
+|  | `keywords[]` | No | No |  |
 | `publications[]` | `website` | No | No |  |
-| `publications[]` | `name` | **Yes** | No |  |
-| `publications[]` | `publisher` | **Yes** | No |  |
-| `publications[]` | `summary` | No | **Yes** |  |
-| `publications[]` | `releaseDate` | **Yes** | No | `YYYY-MM` / `YYYY-MM-DD` |
-| `certificates[]` | `url` | No | No |  |
-| `certificates[]` | `name` | **Yes** | No |  |
-| `certificates[]` | `issuer` | **Yes** | No |  |
-| `certificates[]` | `date` | **Yes** | No | `YYYY-MM` / `YYYY-MM-DD` |
+|  | `name` | **Yes** | No |  |
+|  | `publisher` | **Yes** | No |  |
+|  | `summary` | No | **Yes** |  |
+|  | `releaseDate` | **Yes** | No | `YYYY-MM` / `YYYY-MM-DD` |
+|  | `url` | No | No |  |
+|  | `name` | **Yes** | No |  |
+|  | `issuer` | **Yes** | No |  |
+|  | `date` | **Yes** | No | `YYYY-MM` / `YYYY-MM-DD` |
 | `skills[]` | `name` | **Yes** | No |  |
-| `skills[]` | `level` | **Yes** | No | "master" / "advanced" /<br>"intermediate" / "beginner" |
-| `skills[]` | `keywords[]` | No | No |  |
+|  | `level` | **Yes** | No | "master" / "advanced" /<br>"intermediate" / "beginner" |
+|  | `keywords[]` | No | No |  |
 | `languages[]` | `language` | **Yes** | No |  |
-| `languages[]` | `fluency` | **Yes** | **Yes** |  |
+|  | `fluency` | **Yes** | **Yes** |  |
 | `awards[]` | `title` | **Yes** | No |  |
-| `awards[]` | `awarder` | **Yes** | No |  |
-| `awards[]` | `summary` | No | **Yes** |  |
-| `awards[]` | `date` | **Yes** | No | `YYYY-MM` / `YYYY-MM-DD` |
+|  | `awarder` | **Yes** | No |  |
+|  | `summary` | No | **Yes** |  |
+|  | `date` | **Yes** | No | `YYYY-MM` / `YYYY-MM-DD` |
 | `interests[]` | `name` | **Yes** | No |  |
-| `interests[]` | `keywords[]` | No | No |  |
+|  | `keywords[]` | No | No |  |
 | `references[]` | `name` | **Yes** | No |  |
-| `references[]` | `reference` | **Yes** | **Yes** |  |
+|  | `reference` | **Yes** | **Yes** |  |
 | `meta` | `canonical` | No | no |  |
-| `meta` | `lastModified` | No | No |  |
-| `meta` | `version` | No | No |  |
-| `meta` | `x-lang` | No | No | Language (default: "en").<br>_Non-standard._ |
-| `meta` | `x-size` | No | No | Font size (default: "10pt").<br>_Non-standard._ |
+|  | `lastModified` | No | No |  |
+|  | `version` | No | No |  |
+|  | `x-lang` | No | No | Language (default: "en").<br>_Non-standard._ |
+|  | `x-size` | No | No | Font size (default: "10pt").<br>_Non-standard._ |
 
 _All sections (except for `basics`) are optional._<br>
 _Fields are only required if the section is present._
