@@ -8,7 +8,7 @@
     "module": "Node16",
     "checkJs": true,
     "resolveJsonModule": true,
-    "types": ["jsonresume", "htmls"],
+    "types": ["jsonresume"],
     "typeRoots": ["node_modules/@types", "types"]
   }
 }
