@@ -9,14 +9,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Set up NodeJS
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '20'
           registry-url: https://registry.npmjs.org/
       - name: Install packages
         run: npm ci
+      - name: Validate theme
+        run: npm test
       - name: Publish to NPM
         run: npm publish
         env:

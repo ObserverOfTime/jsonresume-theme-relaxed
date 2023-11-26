@@ -1,7 +1,12 @@
 const {existsSync, readFileSync} = require('node:fs');
-const htmls = require('htmls');
+const htmls = require('@chronobserver/htmls');
 const stylus = require('stylus');
 const {name, version} = require('./package.json');
+
+/**
+ * @typedef {'beginner' | 'intermediate' | 'advanced' | 'master'} SkillLevel
+ * @typedef {'entry' | 'junior' | 'mid' | 'senior'} SkillLevelAlt
+ */
 
 /** @type {Intl.DateTimeFormatOptions} */
 const dateFmt = {month: 'long', year: 'numeric'};
@@ -55,19 +60,23 @@ const lib = {
   },
   /**
    * Map the skill level to a percentage.
-   * @param {'beginner' | 'intermediate' | 'advanced' | 'master'} level the skill level as a string
+   * @param {SkillLevel | SkillLevelAlt} level the skill level as a string
    * @returns {25 | 50 | 75 | 100}
    * @throws if the skill level is invalid
    */
   skill: (level) => {
     switch (level.toLowerCase()) {
       case 'beginner':
+      case 'entry':
         return 25;
       case 'intermediate':
+      case 'junior':
         return 50;
       case 'advanced':
+      case 'mid':
         return 75;
       case 'master':
+      case 'senior':
         return 100;
       default:
         throw Error(`Unexpected skill level: ${level}`);
