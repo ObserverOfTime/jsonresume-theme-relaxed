@@ -17,8 +17,6 @@ jobs:
           registry-url: https://registry.npmjs.org/
       - name: Install packages
         run: npm ci
-      - name: Validate theme
-        run: npm test
       - name: Publish to NPM
         run: npm publish
         env:

@@ -250,8 +250,11 @@ html {lang: $lang, dir: $dir} ->
                 strong award.title
               div {class: \sep} ->
                 b award.awarder
-                time {datetime: award.date} do
-                  @lib.format award.date, $lang, month: \short
+                if award.date
+                  time {datetime: award.date} do
+                    @lib.format award.date, $lang, month: \short
+                else
+                  span \N/A
               p {class: \wrap} award.summary if award.summary
       if @resume.interests?.length > 0
         article {id: \interests class: \flex} ->

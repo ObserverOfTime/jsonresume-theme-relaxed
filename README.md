@@ -83,7 +83,7 @@ build it [online][resume-builder], or export it from [LinkedIn][json-resume-expo
 | `awards[]` | `title` | **Yes** | No |  |
 |  | `awarder` | **Yes** | No |  |
 |  | `summary` | No | **Yes** |  |
-|  | `date` | **Yes** | No | `YYYY-MM` / `YYYY-MM-DD` |
+|  | `date` | **No** | No | `YYYY-MM` / `YYYY-MM-DD` |
 | `interests[]` | `name` | **Yes** | No |  |
 |  | `keywords[]` | No | No |  |
 | `references[]` | `name` | **Yes** | No |  |
