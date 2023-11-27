@@ -1,6 +1,6 @@
 {
   "name": "jsonresume-theme-relaxed",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "license": "MPL-2.0",
   "description": "A JSON Resume theme optimised for PDF output",
   "author": {
@@ -15,7 +15,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ObserverOfTime/jsonresume-theme-relaxed"
+    "url": "git+https://github.com/ObserverOfTime/jsonresume-theme-relaxed.git"
   },
   "bugs": {
     "url": "https://github.com/ObserverOfTime/jsonresume-theme-relaxed/issues"
@@ -23,14 +23,15 @@
   "scripts": {
     "build": "resume export -t .",
     "serve": "resume serve -t . -s",
-    "test": "resume validate"
+    "validate": "resume validate",
+    "prepare": "stylus -c src/resume.styl"
   },
   "dependencies": {
-    "@chronobserver/htmls": "^0.4.3",
-    "stylus": "^0.62.0"
+    "@chronobserver/htmls": "^0.4.3"
   },
   "devDependencies": {
-    "resume-cli": "^3.0.8"
+    "resume-cli": "^3.0.8",
+    "stylus": "^0.62.0"
   },
   "overrides": {
     "axios": "^1.6.0",

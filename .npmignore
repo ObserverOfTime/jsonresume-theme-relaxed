@@ -1,9 +1,11 @@
 .idea/
 .vscode/
+.github/
 public/
-node_modules/
-src/resume.css
+src/resume.styl
 resume*.json
+.editorconfig
+.gitattributes
 .nvimrc
 *.html
 *.pdf

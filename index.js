@@ -1,6 +1,5 @@
 const {existsSync, readFileSync} = require('node:fs');
 const htmls = require('@chronobserver/htmls');
-const stylus = require('stylus');
 const {name, version} = require('./package.json');
 
 /**
@@ -117,8 +116,7 @@ const lib = {
 
 const template = readFileSync(`${__dirname}/src/resume.htmls`, 'utf-8');
 
-// @ts-ignore (the 'compress' key is missing in the type stub)
-const style = stylus.render(readFileSync(`${__dirname}/src/resume.styl`, 'utf-8'), {compress: true});
+const style = readFileSync(`${__dirname}/src/resume.css`, 'utf-8');
 
 module.exports = {
   /**
