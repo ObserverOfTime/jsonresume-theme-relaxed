@@ -100,9 +100,10 @@ _Fields are only required if the section is present._
 </details>
 
 Supported languages:
-  - English ("en", "en-GB", "en-US")
+  - English ("en")
   - Greek ("el")
   - German ("de")
+  - French ("fr")
 
 [schema]: https://jsonresume.org/schema/
 [resume-builder]: https://resume-builder.js.org/en/build
