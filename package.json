@@ -1,6 +1,6 @@
 {
   "name": "jsonresume-theme-relaxed",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "license": "MPL-2.0",
   "description": "A JSON Resume theme optimised for PDF output",
   "author": {
@@ -27,7 +27,7 @@
     "prepare": "stylus -c src/resume.styl"
   },
   "dependencies": {
-    "@chronobserver/htmls": "^0.4.3"
+    "@chronobserver/htmls": "^0.4.4"
   },
   "devDependencies": {
     "resume-cli": "^3.0.8",
