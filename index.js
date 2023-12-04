@@ -114,19 +114,19 @@ const lib = {
     : JSON.parse(readFileSync(`${__dirname}/i18n/en.json`, 'utf-8'))
 }
 
-const template = readFileSync(`${__dirname}/src/resume.htmls`, 'utf-8');
-
-const style = readFileSync(`${__dirname}/src/resume.css`, 'utf-8');
-
 module.exports = {
   /**
    * Render the resume.
    * @param {ResumeSchema} resume the JSON resume
    * @returns {string}
    */
-  render: (resume) => htmls(template)({
-    resume, lib, style, name, version
-  }),
+  render: (resume) => {
+    const template = readFileSync(`${__dirname}/src/resume.htmls`, 'utf-8');
+
+    const style = readFileSync(`${__dirname}/src/resume.css`, 'utf-8');
+
+    return htmls(template)({resume, lib, style, name, version});
+  },
   pdfViewport: {
     width: 1240,
     height: 1754,
