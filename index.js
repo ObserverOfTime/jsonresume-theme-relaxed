@@ -51,6 +51,8 @@ const lib = {
         return 'image/jpeg'
       case 'webp':
         return 'image/webp';
+      case 'avif':
+        return 'image/avif';
       case 'ico':
         return 'image/vnd.microsoft.icon';
       default:
@@ -122,9 +124,7 @@ module.exports = {
    */
   render: (resume) => {
     const template = readFileSync(`${__dirname}/src/resume.htmls`, 'utf-8');
-
     const style = readFileSync(`${__dirname}/src/resume.css`, 'utf-8');
-
     return htmls(template)({resume, lib, style, name, version});
   },
   pdfViewport: {
