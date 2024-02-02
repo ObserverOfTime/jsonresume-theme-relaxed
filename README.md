@@ -18,6 +18,8 @@ build it [online][resume-builder], or export it from [LinkedIn][json-resume-expo
 
 <details>
 
+<summary>Click here for details</summary>
+
 | Section | Field | Required | Line breaks (`\n`) | Notes |
 |:---:|:---:|:---:|:---:|:---:|
 | `basics` | `name` | **Yes** | No | Must be present. |

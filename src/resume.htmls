@@ -32,7 +32,7 @@ $dates = ({start-date, end-date}, format = {}) ->
   else
     span $i18n.\Present
 
-const $size = @resume.meta?.\x-size || '10pt'
+const $size = @resume.meta?.\x-size || \10pt
 
 const $lang = @resume.meta?.\x-lang || \en
 
@@ -49,7 +49,7 @@ doctype \html
 html {lang: $lang, dir: $dir} ->
   head ->
     meta charset: \UTF-8
-    meta name: \viewport content: 'width=device-width, initial-scale=1'
+    meta name: \viewport content: 'width=device-width,initial-scale=1'
     if @resume.meta?.last-modified
       meta \http-equiv : \Last-Modified content: new Date(@resume.meta.last-modified).toUTCString!
     meta name: \generator content: "#{@name} v#{@version}"
