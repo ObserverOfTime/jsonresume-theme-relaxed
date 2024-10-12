@@ -33,12 +33,6 @@ quote-mark(content)
   @page
     margin 2.5cm
 
-  section
-    break-inside avoid-page
-
-  h3
-    break-after avoid-page
-
 body
   padding 0
 
@@ -58,6 +52,9 @@ header
 article:not(.flex) > h3
   margin-block-end 0.75em
 
+section
+  break-inside avoid-page
+
 h1
   font-size 2em
   font-weight 600
@@ -71,6 +68,7 @@ h2
 h3
   font-size 1.25em
   font-weight 600
+  break-after avoid-page
 
   &::before
     content " "
