@@ -29,12 +29,15 @@ quote-mark(content)
   @page
     margin $body-margin * 2
 
-  section
-    break-inside avoid-page
-
 @media print
   @page
     margin 2.5cm
+
+  section
+    break-inside avoid-page
+
+  h3
+    break-after avoid-page
 
 body
   padding 0
