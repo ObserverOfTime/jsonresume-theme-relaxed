@@ -115,16 +115,17 @@ html {lang: $lang, dir: $dir} ->
             # TODO: support location & description
             section {class: 'work details'} ->
               div ->
-                strong ->
-                  if work.website
-                    a {href: work.website} work.company
-                  else
-                    span work.company
                 if @lib.any-of work, <[startDate endDate]>
                   span {class: \float} ->
                     $dates work{start-date, end-date}
               div ->
                 strong work.position
+                if work.name
+                  span " - "
+                  if work.url
+                    a {href: work.url} work.name
+                  else
+                    span work.name
               p {class: \wrap} work.summary if work.summary
               $highlights work.highlights
       if @resume.education?.length > 0
