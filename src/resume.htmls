@@ -112,19 +112,20 @@ html {lang: $lang, dir: $dir} ->
         article {id: \work} ->
           $title 'Work Experience' \building-office-2
           for let work in @resume.work
-            # TODO: support location & description
+            # TODO: support description
             section {class: 'work details'} ->
               div ->
-                strong ->
-                  if work.website
-                    a {href: work.website} work.company
-                  else
-                    span work.company
+                strong work.position
                 if @lib.any-of work, <[startDate endDate]>
                   span {class: \float} ->
                     $dates work{start-date, end-date}
               div ->
-                strong work.position
+                strong ->
+                  if work.url
+                    a {href: work.url} work.name
+                  else
+                    span work.name
+                b {class: \float} work.location if work.location
               p {class: \wrap} work.summary if work.summary
               $highlights work.highlights
       if @resume.education?.length > 0

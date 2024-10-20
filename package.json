@@ -1,6 +1,6 @@
 {
   "name": "jsonresume-theme-relaxed",
-  "version": "0.1.10",
+  "version": "0.1.11",
   "license": "MPL-2.0",
   "description": "A JSON Resume theme optimised for PDF output",
   "author": {
@@ -35,7 +35,7 @@
   },
   "devDependencies": {
     "resume-cli": "^3.1.2",
-    "stylus": "^0.63.0"
+    "stylus": "^0.64.0"
   },
   "overrides": {
     "axios": "^1.7.7",
