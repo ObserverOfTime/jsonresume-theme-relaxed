@@ -213,7 +213,7 @@ html {lang: $lang, dir: $dir} ->
               p {class: \wrap} publication.summary if publication.summary
       if @resume.certificates?.length > 0
         article {id: \certificates} ->
-          $title \Certificates \check-badge
+          $title \Certifications \check-badge
           for let certificate in @resume.certificates
             section {class: \certificate} ->
               div ->
