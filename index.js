@@ -36,7 +36,15 @@ const lib = {
    * @param {string} name the icon name
    * @returns {string}
    */
-  brand: (name) => `https://cdn.simpleicons.org/${name.toLowerCase().replace(' ', '')}`,
+  brand: (name) => {
+    const id = name.toLowerCase().replace(' ', '');
+    switch (id) {
+      case 'linkedin': // simple-icons/simple-icons#11380
+        return 'https://upload.wikimedia.org/wikipedia/commons/8/81/LinkedIn_icon.svg'
+      default:
+        return `https://cdn.simpleicons.org/${id}`
+    }
+  },
   /**
    * Guess the mime type of an image by its extension.
    * @param {string} url the URL of the image.
