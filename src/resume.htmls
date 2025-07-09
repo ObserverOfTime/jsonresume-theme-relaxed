@@ -155,6 +155,21 @@ html {lang: $lang, dir: $dir} ->
                   ul ->
                     for let course in education.courses
                       li course
+      if @resume.certificates?.length > 0
+        article {id: \certificates} ->
+          $title \Certifications \check-badge
+          for let certificate in @resume.certificates
+            section {class: \certificate} ->
+              div ->
+                strong ->
+                  if certificate.url
+                    a {href: certificate.url} certificate.name
+                  else
+                    span certificate.name
+              div {class: \sep} ->
+                b certificate.issuer
+                time {datetime: certificate.date} do
+                  @lib.format certificate.date, $lang, month: \short
       if @resume.volunteer?.length > 0
         article {id: \volunteer} ->
           $title 'Volunteer Work' \lifebuoy
@@ -211,21 +226,6 @@ html {lang: $lang, dir: $dir} ->
                 time {datetime: publication.release-date} do
                   @lib.format publication.release-date, $lang, month: \short
               p {class: \wrap} publication.summary if publication.summary
-      if @resume.certificates?.length > 0
-        article {id: \certificates} ->
-          $title \Certifications \check-badge
-          for let certificate in @resume.certificates
-            section {class: \certificate} ->
-              div ->
-                strong ->
-                  if certificate.url
-                    a {href: certificate.url} certificate.name
-                  else
-                    span certificate.name
-              div {class: \sep} ->
-                b certificate.issuer
-                time {datetime: certificate.date} do
-                  @lib.format certificate.date, $lang, month: \short
       if @resume.skills?.length > 0
         article {id: \skills class: \flex} ->
           $title \Skills \wrench-screwdriver
