@@ -26,7 +26,7 @@
   },
   "scripts": {
     "build": "resume export -t .",
-    "serve": "resume serve -t . -s",
+    "start": "resume serve -t . -s",
     "validate": "resume validate",
     "prepare": "stylus -c src/resume.styl"
   },
@@ -38,7 +38,10 @@
     "stylus": "^0.64.0"
   },
   "overrides": {
-    "axios": "^1.7.7",
-    "ws": "^8.18.0"
+    "axios": "^1.12.2",
+    "brace-expansion": "^2.0.2",
+    "form-data": "4.0.4",
+    "tar-fs": "^2.1.4",
+    "ws": "^8.18.3"
   }
 }
