@@ -20,10 +20,6 @@
   "bugs": {
     "url": "https://github.com/ObserverOfTime/jsonresume-theme-relaxed/issues"
   },
-  "funding": {
-    "url": "https://github.com/sponsors/ObserverOfTime",
-    "type": "github"
-  },
   "scripts": {
     "build": "resume export -t .",
     "start": "resume serve -t . -s",
