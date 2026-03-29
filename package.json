@@ -35,7 +35,7 @@
   },
   "overrides": {
     "axios": "^1.12.2",
-    "brace-expansion": "^2.0.2",
+    "brace-expansion": "^2.0.3",
     "form-data": "4.0.4",
     "tar-fs": "^2.1.4",
     "ws": "^8.18.3"
